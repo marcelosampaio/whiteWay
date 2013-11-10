@@ -14,14 +14,16 @@
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
         
-        self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
+        self.backgroundColor = [SKColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
         
         SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
         
-        myLabel.text = @"Hello, World!";
+        myLabel.text = @"White Way";
         myLabel.fontSize = 30;
         myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
                                        CGRectGetMidY(self.frame));
+
+        NSLog(@"CGRectGetMidX(self.frame)=%f",CGRectGetMidX(self.frame)/2);
         
         [self addChild:myLabel];
     }
@@ -43,6 +45,7 @@
         [sprite runAction:[SKAction repeatActionForever:action]];
         
         [self addChild:sprite];
+        
     }
 }
 
