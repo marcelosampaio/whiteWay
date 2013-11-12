@@ -6,9 +6,12 @@
 //  Copyright (c) 2013 Marcelo Sampaio. All rights reserved.
 //
 
+#define TIME_FACTOR 10
+
 #import "MyScene.h"
 
 @implementation MyScene
+@synthesize timeUnit,timeTen,timeHundred,timeMillion,timeBillion,timeTrillion;
 
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
@@ -51,6 +54,54 @@
 
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
+
+    [self timeCounter];
+    
+    
 }
+
+-(void)timeCounter
+{
+    // Criação da Unidade
+    self.timeUnit=self.timeUnit+1;
+    
+    // Criação da Dezena
+    if (self.timeUnit==TIME_FACTOR) {
+        self.timeTen=self.timeTen+1;
+        self.timeUnit=0;
+    }
+    
+    // Criação da Centena
+    if (self.timeTen==TIME_FACTOR) {
+        self.timeHundred=self.timeHundred+1;
+        self.timeTen=0;
+    }
+
+    // Criação da Milhar
+    if (self.timeHundred==TIME_FACTOR) {
+        self.timeMillion=self.timeMillion+1;
+        self.timeHundred=0;
+    }
+
+    // Criação da Bilhar
+    if (self.timeMillion==TIME_FACTOR) {
+        self.timeBillion=self.timeBillion+1;
+        self.timeMillion=0;
+    }
+    
+    // Criação da Trilhar
+    if (self.timeBillion==TIME_FACTOR) {
+        self.timeTrillion=self.timeTrillion+1;
+        self.timeBillion=0;
+    }
+    
+    
+    
+    
+    // Debug
+    NSLog(@"%ld%ld%ld%ld%ld%ld",self.timeTrillion,self.timeBillion,self.timeMillion,self.timeHundred,self.timeTen,self.timeUnit);
+    
+}
+
 
 @end
