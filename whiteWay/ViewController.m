@@ -17,8 +17,8 @@
 
     // Configure the view.
     SKView * skView = (SKView *)self.view;
-    skView.showsFPS = NO;
-    skView.showsNodeCount = NO;
+    skView.showsFPS = YES;
+    skView.showsNodeCount = YES;
     
     // Create and configure the scene.
     SKScene * scene = [MyScene sceneWithSize:skView.bounds.size];
@@ -39,11 +39,12 @@
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return UIInterfaceOrientationMaskAllButUpsideDown;
-    } else {
-        return UIInterfaceOrientationMaskAll;
-    }
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+//        return UIInterfaceOrientationMaskAllButUpsideDown;
+//    } else {
+//        return UIInterfaceOrientationMaskAll;
+//    }
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (void)didReceiveMemoryWarning

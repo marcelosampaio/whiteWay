@@ -88,20 +88,19 @@
                                      CGRectGetMidY(self.frame));
     runningBall.zPosition=0;
     runningBall.alpha=1;
-    runningBall.xScale=0.65;
-    runningBall.yScale=0.65;
+    runningBall.xScale=0.55;
+    runningBall.yScale=0.55;
     runningBall.color=[SKColor yellowColor];
     runningBall.colorBlendFactor=1;
     
     [self addChild:runningBall];
-    
     
     // Animacao em etapas
     // 1- fade to 1
     // 2- fade to 0
     // 3- remove title
     SKAction *action = [SKAction fadeAlphaTo:1 duration:2];
-    SKAction *animaBolaAmarela = [SKAction moveToX:CGRectGetMaxX(self.frame)+100 duration:2.80f];
+    SKAction *animaBolaAmarela = [SKAction moveToX:CGRectGetMaxX(self.frame)+100 duration:2.00f];   // 2.80
     SKAction *action2 = [SKAction fadeAlphaTo:0 duration:2];
     [gameTitle runAction:action completion:^{
         [runningBall runAction:action2];
