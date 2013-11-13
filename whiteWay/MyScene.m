@@ -11,24 +11,19 @@
 #import "MyScene.h"
 
 @implementation MyScene
+
+
 @synthesize timeUnit,timeTen,timeHundred,timeMillion,timeBillion,timeTrillion;
+//@synthesize gameTitle;
+
+
 
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
         
         self.backgroundColor = [SKColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
-        
-        SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-        
-        myLabel.text = @"White Way";
-        myLabel.fontSize = 30;
-        myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
-                                       CGRectGetMidY(self.frame));
 
-        NSLog(@"CGRectGetMidX(self.frame)=%f",CGRectGetMidX(self.frame)/2);
-        
-        [self addChild:myLabel];
     }
     return self;
 }
@@ -36,31 +31,88 @@
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     /* Called when a touch begins */
     
-    for (UITouch *touch in touches) {
-        CGPoint location = [touch locationInNode:self];
-        
-        SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
-        
-        sprite.position = location;
-        
-        SKAction *action = [SKAction rotateByAngle:M_PI duration:1];
-        
-        [sprite runAction:[SKAction repeatActionForever:action]];
-        
-        [self addChild:sprite];
-        
-    }
+//    for (UITouch *touch in touches) {
+//        CGPoint location = [touch locationInNode:self];
+//        
+//        SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
+//        
+//        sprite.position = location;
+//        
+//        SKAction *action = [SKAction rotateByAngle:M_PI duration:1];
+//        
+//        [sprite runAction:[SKAction repeatActionForever:action]];
+//        
+//        [self addChild:sprite];
+//        
+//    }
 }
 
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
 
-    [self timeCounter];
-    
-    
+    // Time management - Getting timePulse
+    long timePulse=[self timeCounter];
+
+    // =================================================
+    // Time Tasks - tasks executed along game's timeline
+    // =================================================
+    // ==== UNIDADE 0 - 300 =  Game Title Animation
+    if (timePulse==10)
+    {
+        [self animateIntroduction];
+    }
+    // ========== FIM DO TITULO
 }
 
--(void)timeCounter
+-(void)animateIntroduction
+{
+    SKLabelNode *gameTitle = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    //    self.gameTitle.text = @"White Way";
+    gameTitle.text=@"White Way";
+    gameTitle.name=gameTitle.text;
+    gameTitle.fontSize = 60;
+    gameTitle.position = CGPointMake(CGRectGetMidX(self.frame),
+                                     CGRectGetMidY(self.frame));
+    gameTitle.alpha=0;
+    gameTitle.color=[SKColor whiteColor];
+    gameTitle.colorBlendFactor=1;
+    
+    [self addChild:gameTitle];
+    
+    // Animacao em etapas
+    // 1- fade to 1
+    // 2- fade to 0
+    // 3- remove title
+    SKAction *action = [SKAction fadeAlphaTo:1 duration:2];
+    SKAction *action2 = [SKAction fadeAlphaTo:0 duration:2];
+    [gameTitle runAction:action completion:^{
+        [gameTitle runAction:action2 completion:^{
+            [gameTitle removeFromParent];
+        }];
+    }];
+}
+
+
+
+//-(void)animateIntroductionUsingTimePulse:(long)timePulse
+//{
+//    [self enumerateChildNodesWithName:@"White Way" usingBlock:^(SKNode *node, BOOL *stop)
+//    {
+//        if (self.removerGameTitleLabel) {
+//            [node removeFromParent];
+//            return;
+//        }
+//        // 1- Armazena propriedades corrente do label
+//        // 2- remove o label do parent
+//        [node removeFromParent];
+//        // 3- set alpha property
+//        // 4- add node com novo label
+//        [self addLabelTitleWithAlpha:timePulse];
+//    }];
+//}
+
+
+-(long)timeCounter
 {
     // Criação da Unidade
     self.timeUnit=self.timeUnit+1;
@@ -95,11 +147,12 @@
         self.timeBillion=0;
     }
     
+    // Long value to be returned
+    long longNumber=self.timeUnit+(self.timeTen*10)+(self.timeHundred*100)+(self.timeMillion*1000)+(self.timeBillion*1000000)+(self.timeTrillion*1000000000);
     
     
-    
-    // Debug
-    NSLog(@"%ld%ld%ld%ld%ld%ld",self.timeTrillion,self.timeBillion,self.timeMillion,self.timeHundred,self.timeTen,self.timeUnit);
+    return longNumber;
+
     
 }
 

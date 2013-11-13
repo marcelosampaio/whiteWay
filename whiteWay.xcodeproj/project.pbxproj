@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C6FAF86183307ED00D9FE7A /* whiteWay.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 9C6FAF85183307ED00D9FE7A /* whiteWay.atlas */; };
 		9CFA22AC182EC64F002DFDCF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CFA22AB182EC64F002DFDCF /* Foundation.framework */; };
 		9CFA22AE182EC64F002DFDCF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CFA22AD182EC64F002DFDCF /* CoreGraphics.framework */; };
 		9CFA22B0182EC64F002DFDCF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CFA22AF182EC64F002DFDCF /* UIKit.framework */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9C6FAF85183307ED00D9FE7A /* whiteWay.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = whiteWay.atlas; sourceTree = "<group>"; };
 		9CFA22A8182EC64F002DFDCF /* whiteWay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = whiteWay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CFA22AB182EC64F002DFDCF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9CFA22AD182EC64F002DFDCF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -133,6 +135,7 @@
 				9CFA22C9182EC64F002DFDCF /* MyScene.m */,
 				9CFA22CB182EC64F002DFDCF /* Spaceship.png */,
 				9CFA22CD182EC64F002DFDCF /* Images.xcassets */,
+				9C6FAF85183307ED00D9FE7A /* whiteWay.atlas */,
 				9CFA22B4182EC64F002DFDCF /* Supporting Files */,
 			);
 			path = whiteWay;
@@ -246,6 +249,7 @@
 				9CFA22CC182EC64F002DFDCF /* Spaceship.png in Resources */,
 				9CFA22CE182EC64F002DFDCF /* Images.xcassets in Resources */,
 				9CFA22C4182EC64F002DFDCF /* Main_iPad.storyboard in Resources */,
+				9C6FAF86183307ED00D9FE7A /* whiteWay.atlas in Resources */,
 				9CFA22C1182EC64F002DFDCF /* Main_iPhone.storyboard in Resources */,
 				9CFA22B8182EC64F002DFDCF /* InfoPlist.strings in Resources */,
 			);
@@ -490,6 +494,7 @@
 				9CFA22E6182EC64F002DFDCF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9CFA22E7182EC64F002DFDCF /* Build configuration list for PBXNativeTarget "whiteWayTests" */ = {
 			isa = XCConfigurationList;
@@ -498,6 +503,7 @@
 				9CFA22E9182EC64F002DFDCF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

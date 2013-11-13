@@ -18,4 +18,10 @@
 @property long timeBillion;         // Bilhao de tempo
 @property long timeTrillion;        // Trilhao de tempo
 
+
+// Titulo do game para animacao
+//@property(strong,nonatomic) SKLabelNode *gameTitle;
+
 @end
+
+
