@@ -66,6 +66,7 @@
 
 -(void)animateIntroduction
 {
+    // adicionando Label Titulo do Game
     SKLabelNode *gameTitle = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     //    self.gameTitle.text = @"White Way";
     gameTitle.text=@"White Way";
@@ -73,44 +74,44 @@
     gameTitle.fontSize = 60;
     gameTitle.position = CGPointMake(CGRectGetMidX(self.frame),
                                      CGRectGetMidY(self.frame));
+    gameTitle.zPosition=100;
     gameTitle.alpha=0;
     gameTitle.color=[SKColor whiteColor];
     gameTitle.colorBlendFactor=1;
     
     [self addChild:gameTitle];
+
+    // adicionando Bola Amarela Correndo para a esquerda
+    SKSpriteNode *runningBall = [SKSpriteNode spriteNodeWithImageNamed:@"ball"];
+    runningBall.name=@"Running Ball";
+    runningBall.position = CGPointMake(CGRectGetMinX(self.frame)-70,
+                                     CGRectGetMidY(self.frame));
+    runningBall.zPosition=0;
+    runningBall.alpha=1;
+    runningBall.xScale=0.65;
+    runningBall.yScale=0.65;
+    runningBall.color=[SKColor yellowColor];
+    runningBall.colorBlendFactor=1;
+    
+    [self addChild:runningBall];
+    
     
     // Animacao em etapas
     // 1- fade to 1
     // 2- fade to 0
     // 3- remove title
     SKAction *action = [SKAction fadeAlphaTo:1 duration:2];
+    SKAction *animaBolaAmarela = [SKAction moveToX:CGRectGetMaxX(self.frame)+100 duration:2.80f];
     SKAction *action2 = [SKAction fadeAlphaTo:0 duration:2];
     [gameTitle runAction:action completion:^{
+        [runningBall runAction:action2];
+        [runningBall runAction:animaBolaAmarela];
         [gameTitle runAction:action2 completion:^{
             [gameTitle removeFromParent];
         }];
     }];
+
 }
-
-
-
-//-(void)animateIntroductionUsingTimePulse:(long)timePulse
-//{
-//    [self enumerateChildNodesWithName:@"White Way" usingBlock:^(SKNode *node, BOOL *stop)
-//    {
-//        if (self.removerGameTitleLabel) {
-//            [node removeFromParent];
-//            return;
-//        }
-//        // 1- Armazena propriedades corrente do label
-//        // 2- remove o label do parent
-//        [node removeFromParent];
-//        // 3- set alpha property
-//        // 4- add node com novo label
-//        [self addLabelTitleWithAlpha:timePulse];
-//    }];
-//}
-
 
 -(long)timeCounter
 {
@@ -149,7 +150,6 @@
     
     // Long value to be returned
     long longNumber=self.timeUnit+(self.timeTen*10)+(self.timeHundred*100)+(self.timeMillion*1000)+(self.timeBillion*1000000)+(self.timeTrillion*1000000000);
-    
     
     return longNumber;
 
