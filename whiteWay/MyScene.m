@@ -15,14 +15,15 @@
 
 @synthesize timeUnit,timeTen,timeHundred,timeMillion,timeBillion,timeTrillion;
 //@synthesize gameTitle;
-
-
+@synthesize gameBoardOK;
+@synthesize MidX,MidY;
 
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
         
         self.backgroundColor = [SKColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+        self.gameBoardOK=NO;
 
     }
     return self;
@@ -61,7 +62,12 @@
     {
         [self animateIntroduction];
     }
-    // ========== FIM DO TITULO
+    // Testa o se já pode criar o tabuleiro do jogo
+    if (self.gameBoardOK) {
+        NSLog(@"*******liberado********");
+        [self addGameBoard];
+        self.gameBoardOK=NO;  // Fim do ciclo de vida do tabuleiro inicial
+    }
 }
 
 -(void)animateIntroduction
@@ -107,6 +113,7 @@
         [runningBall runAction:animaBolaAmarela];
         [gameTitle runAction:action2 completion:^{
             [gameTitle removeFromParent];
+            self.gameBoardOK=YES;
         }];
     }];
 
@@ -153,6 +160,84 @@
     return longNumber;
 
     
+}
+// ========================================
+// Método para criação do tabuleiro de jogo
+// ========================================
+-(void)addGameBoard
+{
+
+    self.MidX=CGRectGetMidX(self.frame);
+    self.MidY=CGRectGetMidY(self.frame);
+    
+    int totalLinhas=7;
+    int totalColunas=7;
+
+    int tamanhoBase=80;  // iPad Resolution
+    
+    
+    
+    for (int i=0; i<totalColunas; i++) {
+        for (int j=0; j<totalLinhas; j++) {
+            SKSpriteNode *runningBall = [SKSpriteNode spriteNodeWithImageNamed:@"ball"];
+            runningBall.name=[NSString stringWithFormat:@"%d%d",i+1,j+1];
+            CGPoint coordenadasDaCelula=[self getCellPointToLine:i+1 Column:j+1 baseSize:tamanhoBase];
+            runningBall.position=coordenadasDaCelula;
+            runningBall.zPosition=0;
+            runningBall.alpha=1;
+            runningBall.xScale=0.55;
+            runningBall.yScale=0.55;
+            runningBall.colorBlendFactor=1;
+            runningBall.color=[SKColor whiteColor];
+            
+            [self addChild:runningBall];
+
+        }
+    
+    }
+ 
+}
+
+// Metodo para obtencao da posicao de cada celula no tabuleiro do jogo
+-(CGPoint)getCellPointToLine:(int)linha Column:(int)coluna baseSize:(int)tamanhoBase
+{
+    CGFloat xCoordinate=0.00f;
+    CGFloat yCoordinate=0.00f;
+    //Tratamento de X
+    if (coluna==1) {
+        xCoordinate=self.MidX-tamanhoBase*3;
+    } else if (coluna==2) {
+        xCoordinate=self.MidX-tamanhoBase*2;
+    } else if (coluna==3) {
+        xCoordinate=self.MidX-tamanhoBase;
+    } else if (coluna==4) {
+        xCoordinate=self.MidX;
+    } else if (coluna==5) {
+        xCoordinate=self.MidX+tamanhoBase;
+    } else if (coluna==6) {
+        xCoordinate=self.MidX+tamanhoBase*2;
+    } else if (coluna==7) {
+        xCoordinate=self.MidX+tamanhoBase*3;
+    }
+
+    //Tratamento de Y
+    if (linha==1) {
+        yCoordinate=self.MidY+tamanhoBase*3;
+    } else if (linha==2) {
+        yCoordinate=self.MidY+tamanhoBase*2;
+    } else if (linha==3) {
+        yCoordinate=self.MidY+tamanhoBase;
+    } else if (linha==4) {
+        yCoordinate=self.MidY;
+    } else if (linha==5) {
+        yCoordinate=self.MidY-tamanhoBase;
+    } else if (linha==6) {
+        yCoordinate=self.MidY-tamanhoBase*2;
+    } else if (linha==7) {
+        yCoordinate=self.MidY-tamanhoBase*3;
+    }
+
+    return CGPointMake(xCoordinate, yCoordinate);
 }
 
 

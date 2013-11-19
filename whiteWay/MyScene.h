@@ -18,6 +18,10 @@
 @property long timeBillion;         // Bilhao de tempo
 @property long timeTrillion;        // Trilhao de tempo
 
+// Propriedade para saber se a animacao inicial já terminou
+@property BOOL gameBoardOK;
+@property float MidX;
+@property float MidY;
 
 // Titulo do game para animacao
 //@property(strong,nonatomic) SKLabelNode *gameTitle;

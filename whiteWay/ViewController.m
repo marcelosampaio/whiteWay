@@ -14,7 +14,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // Configure the view.
+    [self configureAndPresentView];
+}
 
+-(void)configureAndPresentView
+{
     // Configure the view.
     SKView * skView = (SKView *)self.view;
     skView.showsFPS = YES;
@@ -27,6 +32,8 @@
     // Present the scene.
     [skView presentScene:scene];
 }
+
+
 // Esconder atatus bar
 - (BOOL)prefersStatusBarHidden {
     return YES;
@@ -36,14 +43,16 @@
 {
     return YES;
 }
+//-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+//{
+//    NSLog(@"****************** device foi RODADO ********************");
+//    NSLog(@"Width=%f",self.view.frame.size.width);
+//    NSLog(@"Height=%f",self.view.frame.size.height);
+//
+//}
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-//        return UIInterfaceOrientationMaskAllButUpsideDown;
-//    } else {
-//        return UIInterfaceOrientationMaskAll;
-//    }
     return UIInterfaceOrientationMaskAll;
 }
 

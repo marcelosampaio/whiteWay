@@ -19,7 +19,6 @@
 		9CFA22C4182EC64F002DFDCF /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CFA22C2182EC64F002DFDCF /* Main_iPad.storyboard */; };
 		9CFA22C7182EC64F002DFDCF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFA22C6182EC64F002DFDCF /* ViewController.m */; };
 		9CFA22CA182EC64F002DFDCF /* MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFA22C9182EC64F002DFDCF /* MyScene.m */; };
-		9CFA22CC182EC64F002DFDCF /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CFA22CB182EC64F002DFDCF /* Spaceship.png */; };
 		9CFA22CE182EC64F002DFDCF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CFA22CD182EC64F002DFDCF /* Images.xcassets */; };
 		9CFA22D5182EC64F002DFDCF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CFA22D4182EC64F002DFDCF /* XCTest.framework */; };
 		9CFA22D6182EC64F002DFDCF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CFA22AB182EC64F002DFDCF /* Foundation.framework */; };
@@ -57,7 +56,6 @@
 		9CFA22C6182EC64F002DFDCF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		9CFA22C8182EC64F002DFDCF /* MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScene.h; sourceTree = "<group>"; };
 		9CFA22C9182EC64F002DFDCF /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
-		9CFA22CB182EC64F002DFDCF /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spaceship.png; sourceTree = "<group>"; };
 		9CFA22CD182EC64F002DFDCF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9CFA22D3182EC64F002DFDCF /* whiteWayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = whiteWayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CFA22D4182EC64F002DFDCF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -133,7 +131,6 @@
 				9CFA22C6182EC64F002DFDCF /* ViewController.m */,
 				9CFA22C8182EC64F002DFDCF /* MyScene.h */,
 				9CFA22C9182EC64F002DFDCF /* MyScene.m */,
-				9CFA22CB182EC64F002DFDCF /* Spaceship.png */,
 				9CFA22CD182EC64F002DFDCF /* Images.xcassets */,
 				9C6FAF85183307ED00D9FE7A /* whiteWay.atlas */,
 				9CFA22B4182EC64F002DFDCF /* Supporting Files */,
@@ -246,7 +243,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9CFA22CC182EC64F002DFDCF /* Spaceship.png in Resources */,
 				9CFA22CE182EC64F002DFDCF /* Images.xcassets in Resources */,
 				9CFA22C4182EC64F002DFDCF /* Main_iPad.storyboard in Resources */,
 				9C6FAF86183307ED00D9FE7A /* whiteWay.atlas in Resources */,
