@@ -20,6 +20,7 @@
 
 // Propriedade para saber se a animacao inicial já terminou
 @property BOOL gameBoardOK;
+@property BOOL gameBoardEngineIsOn;
 @property float MidX;
 @property float MidY;
 @property int tamanhoBase;

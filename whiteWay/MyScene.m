@@ -15,7 +15,7 @@
 
 @synthesize timeUnit,timeTen,timeHundred,timeMillion,timeBillion,timeTrillion;
 //@synthesize gameTitle;
-@synthesize gameBoardOK, gameBoardMovements;
+@synthesize gameBoardOK, gameBoardMovements, gameBoardEngineIsOn;
 @synthesize MidX,MidY,tamanhoBase;
 @synthesize tabuleiro;
 
@@ -27,6 +27,7 @@
         self.backgroundColor = [SKColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
         self.gameBoardOK=NO;
         self.gameBoardMovements=NO;
+        self.gameBoardEngineIsOn=NO;
         self.tabuleiro=[[NSMutableDictionary alloc]initWithCapacity:49];
 
     }
@@ -70,14 +71,6 @@
     if (self.gameBoardOK) {
         [self addGameBoard];
         self.gameBoardOK=NO;  // Fim do ciclo de vida do tabuleiro inicial
-//        NSLog(@"dicionario com %d entradas no pulse=%ld",[self.tabuleiro count],timePulse);
-//        for (int i=1; i<=7; i++) {
-//            NSLog(@"%d",i);
-//            NSLog(@"===== 1%d",i);
-//            NSLog(@"----> %@",[self.tabuleiro valueForKey:[NSString stringWithFormat:@"1%d",i]]);
-//
-//        }
-//        //Finaliza aqui com timePulse=250 seguro
     }
     
     // Por volta de timePulse=250 podemos iniciar as movimentações de colunas
@@ -85,13 +78,15 @@
     if (timePulse==250) {
         // Antes de iniciar a movimentação devemos criar a bola amarela primeiro em seu ponto inicial
         [self addInitialBall];
-        
         self.gameBoardMovements=YES;
-        NSLog(@"ligou o movimento do jogo!!!!");
     }
     //
     // Processamento do Loop Principal do Game (somente interrompido quando move-se o amarelo!!!!!
     //
+    if (self.gameBoardEngineIsOn) {
+        NSLog(@"========= Aqui começa o controle do tempo para os pulsos do jogo!!!!!! ===============");
+    }
+    
 }
 
 -(void)animateIntroduction
@@ -212,11 +207,8 @@
             runningBall.color=[self gameBoardRowColor:i+1 gameBoardColumnColor:j+1];;
             
             [self addChild:runningBall];
-            
         }
-    
     }
- 
 }
 
 -(void)addInitialBall
@@ -236,7 +228,9 @@
     
     // Anima a chegada da Bola
     SKAction *animaBolaInicial = [SKAction moveToX:coordenadasDaCelula.x duration:0.35f];   // 2.80
-    [initialBall runAction:animaBolaInicial];
+    [initialBall runAction:animaBolaInicial completion:^{
+        self.gameBoardEngineIsOn=YES;
+    }];
     
     
 }
