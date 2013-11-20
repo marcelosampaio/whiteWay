@@ -31,7 +31,7 @@
         self.tabuleiro=[[NSMutableDictionary alloc]initWithCapacity:49];
         
         // Procedimentos de armazenamento no github ainda em suspenso
-        NSLog(@"GITHUB e REMOTE descartados ate segunda ordem");
+        NSLog(@"GITHUB e REMOTE descartados ate segunda ordem   de novo");
 
         
     }
