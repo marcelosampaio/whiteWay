@@ -22,6 +22,13 @@
 @property BOOL gameBoardOK;
 @property float MidX;
 @property float MidY;
+@property int tamanhoBase;
+
+// Controle do loop proncipal do game
+@property BOOL gameBoardMovements;
+
+// Tabuleiro do jogo
+@property (nonatomic,strong) NSMutableDictionary *tabuleiro;
 
 // Titulo do game para animacao
 //@property(strong,nonatomic) SKLabelNode *gameTitle;
