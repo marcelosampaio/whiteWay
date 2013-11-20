@@ -29,6 +29,8 @@
         self.gameBoardMovements=NO;
         self.gameBoardEngineIsOn=NO;
         self.tabuleiro=[[NSMutableDictionary alloc]initWithCapacity:49];
+        
+        NSLog(@"versao para o github");
 
     }
     return self;
