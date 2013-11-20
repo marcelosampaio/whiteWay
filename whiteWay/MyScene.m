@@ -30,8 +30,10 @@
         self.gameBoardEngineIsOn=NO;
         self.tabuleiro=[[NSMutableDictionary alloc]initWithCapacity:49];
         
-        NSLog(@"versao para o github");
-
+        // Procedimentos de armazenamento no github ainda em suspenso
+        NSLog(@"GITHUB ainda não concluido");
+        NSLog(@"retiramos referencias internas do github");
+        
     }
     return self;
 }
