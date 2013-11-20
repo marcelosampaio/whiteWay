@@ -31,8 +31,8 @@
         self.tabuleiro=[[NSMutableDictionary alloc]initWithCapacity:49];
         
         // Procedimentos de armazenamento no github ainda em suspenso
-        NSLog(@"GITHUB ainda não concluido");
-        NSLog(@"retiramos referencias internas do github");
+        NSLog(@"GITHUB teste");
+
         
     }
     return self;
