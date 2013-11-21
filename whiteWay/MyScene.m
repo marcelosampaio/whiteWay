@@ -29,10 +29,7 @@
         self.gameBoardMovements=NO;
         self.gameBoardEngineIsOn=NO;
         self.tabuleiro=[[NSMutableDictionary alloc]initWithCapacity:49];
-        
-        NSLog(@"GITHUB ok! Iniciando desenvolvimento dos issues!");
 
-        
     }
     return self;
 }
@@ -199,7 +196,7 @@
         for (int j=0; j<totalLinhas; j++) {
             SKSpriteNode *runningBall = [SKSpriteNode spriteNodeWithImageNamed:@"ball"];
             runningBall.name=[NSString stringWithFormat:@"%d%d",i+1,j+1];
-            CGPoint coordenadasDaCelula=[self getCellPointToLine:i+1 Column:j+1];
+            CGPoint coordenadasDaCelula=[self getBoardCellPointAtRow:i+1 Column:j+1];
             runningBall.position=coordenadasDaCelula;
             runningBall.zPosition=0;
             runningBall.alpha=1;
@@ -218,7 +215,7 @@
 {
     SKSpriteNode *initialBall = [SKSpriteNode spriteNodeWithImageNamed:@"ball"];
     initialBall.name=@"9";
-    CGPoint coordenadasDaCelula=[self getCellPointToLine:0 Column:0];
+    CGPoint coordenadasDaCelula=[self getBoardCellPointAtRow:0 Column:0];
     initialBall.position=CGPointMake(CGRectGetMinX(self.frame), coordenadasDaCelula.y);
     initialBall.zPosition=0;
     initialBall.alpha=1;
@@ -230,7 +227,7 @@
     [self addChild:initialBall];
     
     // Anima a chegada da Bola
-    SKAction *animaBolaInicial = [SKAction moveToX:coordenadasDaCelula.x duration:0.35f];   // 2.80
+    SKAction *animaBolaInicial = [SKAction moveToX:coordenadasDaCelula.x duration:0.35f];
     [initialBall runAction:animaBolaInicial completion:^{
         self.gameBoardEngineIsOn=YES;
     }];
@@ -242,7 +239,7 @@
 
 
 // Metodo para obtencao da posicao de cada celula no tabuleiro do jogo
--(CGPoint)getCellPointToLine:(int)linha Column:(int)coluna
+-(CGPoint)getBoardCellPointAtRow:(int)linha Column:(int)coluna
 {
     CGFloat xCoordinate=0.00f;
     CGFloat yCoordinate=0.00f;
