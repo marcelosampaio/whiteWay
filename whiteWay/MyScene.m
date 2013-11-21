@@ -14,8 +14,7 @@
 
 
 @synthesize timeUnit,timeTen,timeHundred,timeMillion,timeBillion,timeTrillion;
-//@synthesize gameTitle;
-@synthesize gameBoardOK, gameBoardMovements, gameBoardEngineIsOn;
+@synthesize gameBoardOK,gameBoardEngineIsOn,gameTimerIsOn,gameTimer,gameBoardTimerInterval;
 @synthesize MidX,MidY,tamanhoBase;
 @synthesize tabuleiro;
 
@@ -26,32 +25,22 @@
         
         self.backgroundColor = [SKColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
         self.gameBoardOK=NO;
-        self.gameBoardMovements=NO;
         self.gameBoardEngineIsOn=NO;
+        self.gameTimerIsOn=NO;
+        self.gameBoardTimerInterval=3.00f;
         self.tabuleiro=[[NSMutableDictionary alloc]initWithCapacity:49];
 
     }
     return self;
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    /* Called when a touch begins */
-    
-//    for (UITouch *touch in touches) {
-//        CGPoint location = [touch locationInNode:self];
-//        
-//        SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
-//        
-//        sprite.position = location;
-//        
-//        SKAction *action = [SKAction rotateByAngle:M_PI duration:1];
-//        
-//        [sprite runAction:[SKAction repeatActionForever:action]];
-//        
-//        [self addChild:sprite];
-//        
-//    }
-}
+//-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+//    /* Called when a touch begins */
+//    
+////    for (UITouch *touch in touches) {
+////        CGPoint location = [touch locationInNode:self];
+////    }
+//}
 
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
@@ -78,13 +67,19 @@
     if (timePulse==250) {
         // Antes de iniciar a movimentação devemos criar a bola amarela primeiro em seu ponto inicial
         [self addInitialBall];
-        self.gameBoardMovements=YES;
     }
     //
     // Processamento do Loop Principal do Game (somente interrompido quando move-se o amarelo!!!!!
-    //
+
+    // Verifico se o jogo já está pronto para iniciar os movimentos
     if (self.gameBoardEngineIsOn) {
-        NSLog(@"========= Aqui começa o controle do tempo para os pulsos do jogo!!!!!! ===============");
+        // Somente ligo time 1 vez. Ele somente sera interrompindo pelo swipe e religado por la
+        if (!self.gameTimerIsOn) {
+            // Main Game Timer gains controll over the game board
+            self.gameTimer=[NSTimer scheduledTimerWithTimeInterval:self.gameBoardTimerInterval target:self selector:@selector(timerLoopOnProcessing) userInfo:nil repeats:YES];
+            [self.gameTimer fire];
+            self.gameTimerIsOn=YES;
+        }
     }
     
 }
@@ -289,7 +284,7 @@
     // Tratamento da cor de cada celula
     //  0- Preto
     //  1- Branco
-    //  2- Amarelo ( neste método o amarelo NUNCA é gerado )
+    //  2- Amarelo 
     if (linha==0 && coluna==0) {
         return [UIColor yellowColor];
     }
@@ -306,6 +301,15 @@
     [self.tabuleiro setValue:[NSString stringWithFormat:@"0"] forKey:[NSString stringWithFormat:@"%d",(linha*10)+coluna]];
     return [UIColor blackColor];
 }
+
+
+-(void)timerLoopOnProcessing
+{
+    static long contador;
+    contador=contador+1;
+    NSLog(@"Entrando no tratamento do loop do timer     ------ %ld",contador);
+}
+
 
 
 @end

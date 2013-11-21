@@ -21,12 +21,12 @@
 // Propriedade para saber se a animacao inicial já terminou
 @property BOOL gameBoardOK;
 @property BOOL gameBoardEngineIsOn;
+@property BOOL gameTimerIsOn;
+@property float gameBoardTimerInterval;
+@property(nonatomic,retain) NSTimer *gameTimer;
 @property float MidX;
 @property float MidY;
 @property int tamanhoBase;
-
-// Controle do loop proncipal do game
-@property BOOL gameBoardMovements;
 
 // Tabuleiro do jogo
 @property (nonatomic,strong) NSMutableDictionary *tabuleiro;
