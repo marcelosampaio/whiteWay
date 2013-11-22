@@ -325,7 +325,6 @@
     
     // Tratamento de NÃO É A PRIMEIRA VEZ
     // ----------------------------------
-    NSLog(@"Analisando a key=%d",linha*10+coluna);
     int fator=1;
     if (coluna==1||coluna==3||coluna==5||coluna==7) {
         fator=-1;
@@ -341,6 +340,7 @@
         cellColor=[UIColor yellowColor];
     }
 
+    [self.tabuleiro setValue:[NSString stringWithFormat:@"%@",cor] forKey:[NSString stringWithFormat:@"%d",(linha*10)+coluna]];
     return cellColor;
 }
 
