@@ -30,6 +30,7 @@
 
 // Tabuleiro do jogo
 @property (nonatomic,strong) NSMutableDictionary *tabuleiro;
+@property (nonatomic,strong) NSMutableArray *objetosDoTabuleiro;
 @property (nonatomic,strong) NSMutableDictionary *tabuleiroAuxiliar;
 
 // Titulo do game para animacao

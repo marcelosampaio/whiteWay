@@ -16,7 +16,7 @@
 @synthesize timeUnit,timeTen,timeHundred,timeMillion,timeBillion,timeTrillion;
 @synthesize gameBoardOK,gameBoardEngineIsOn,gameTimerIsOn,gameTimer,gameBoardTimerInterval;
 @synthesize MidX,MidY,tamanhoBase;
-@synthesize tabuleiro,tabuleiroAuxiliar;
+@synthesize tabuleiro,tabuleiroAuxiliar,objetosDoTabuleiro;
 
 
 -(id)initWithSize:(CGSize)size {    
@@ -29,6 +29,7 @@
         self.gameTimerIsOn=NO;
         self.gameBoardTimerInterval=3.00f;
         self.tabuleiro=[[NSMutableDictionary alloc]initWithCapacity:49];
+        self.objetosDoTabuleiro=[[NSMutableArray alloc]initWithCapacity:49];
     }
     return self;
 }
@@ -181,6 +182,7 @@
 {
     // Inicializa o tabuleiro Auxiliar
     self.tabuleiroAuxiliar=[[NSMutableDictionary alloc]initWithDictionary:self.tabuleiro];
+    [self resetBoard];
     
     self.MidX=CGRectGetMidX(self.frame);
     self.MidY=CGRectGetMidY(self.frame);
@@ -188,33 +190,34 @@
     
     int totalLinhas=7;
     int totalColunas=7;
-    
-    if (isFirstTime) // É a primeira vez
-    {
-        for (int i=0; i<totalColunas; i++) {
-            for (int j=0; j<totalLinhas; j++) {
-                SKSpriteNode *boardCell = [SKSpriteNode spriteNodeWithImageNamed:@"ball"];
-                boardCell.name=[NSString stringWithFormat:@"%d%d",i+1,j+1];
-                CGPoint coordenadasDaCelula=[self getBoardCellPointAtRow:i+1 Column:j+1];
-                boardCell.position=coordenadasDaCelula;
-                boardCell.zPosition=0;
-                boardCell.alpha=1;
-                boardCell.xScale=0.55;
-                boardCell.yScale=0.55;
-                boardCell.colorBlendFactor=1;
-                // Obtem a cor da celula
-                boardCell.color=[self gameBoardRowColor:i+1 gameBoardColumnColor:j+1 firstTime:isFirstTime];
-                [self addChild:boardCell];
-            }
-        }
-    } else    // Não é a primeira vez
-    {
-        // somente os nascentes recebem nova cor de celula os demais são movimentados ( anterior->proximo )
-        
-    }
-    
-    
 
+    for (int i=0; i<totalColunas; i++) {
+        for (int j=0; j<totalLinhas; j++) {
+            SKSpriteNode *boardCell = [SKSpriteNode spriteNodeWithImageNamed:@"ball"];
+            boardCell.name=[NSString stringWithFormat:@"%d%d",i+1,j+1];
+            CGPoint coordenadasDaCelula=[self getBoardCellPointAtRow:i+1 Column:j+1];
+            boardCell.position=coordenadasDaCelula;
+            boardCell.zPosition=0;
+            boardCell.alpha=1;
+            boardCell.xScale=0.55;
+            boardCell.yScale=0.55;
+            boardCell.colorBlendFactor=1;
+            // Obtem a cor da celula
+            boardCell.color=[self gameBoardRowColor:i+1 gameBoardColumnColor:j+1 firstTime:isFirstTime];
+            [self addChild:boardCell];
+            [self.objetosDoTabuleiro addObject:boardCell];
+        }
+    }
+}
+
+
+-(void)resetBoard
+{
+    for (int index = 0; index<[self.objetosDoTabuleiro count];index++) {
+        SKSpriteNode *sprite =(SKSpriteNode *)self.objetosDoTabuleiro[index];
+        [sprite removeFromParent];
+    }
+    [self.objetosDoTabuleiro removeAllObjects];
 }
 
 -(void)addInitialBall
@@ -303,11 +306,12 @@
     // Senao a cor randomicame se aplica apenas as nascentes
     // Cor da proxima é a cor da anterior
     NSString *cell=[NSString stringWithFormat:@"%d",linha*10+coluna];
+    int probabilidade=9;
+    int randomIndex=arc4random() % probabilidade;
     
     if (isFirstTime || [cell isEqualToString:@"11"] || [cell isEqualToString:@"13"] || [cell isEqualToString:@"15"] || [cell isEqualToString:@"17"] || [cell isEqualToString:@"72"] || [cell isEqualToString:@"74"] || [cell isEqualToString:@"76"]) {
-        // Leva em consideracao o dicionario tabuleiro para esta criacao de cores no tabuleiro
-        int probabilidade=9;
-        int randomIndex=arc4random() % probabilidade;
+     
+        // -- 1 Para BRANCO
         if (randomIndex<=3) {
             // Armazena propriedades da celula do tabuleiro -- 1 Para BRANCO
             [self.tabuleiro setValue:[NSString stringWithFormat:@"1"] forKey:[NSString stringWithFormat:@"%d",(linha*10)+coluna]];
@@ -321,10 +325,23 @@
     
     // Tratamento de NÃO É A PRIMEIRA VEZ
     // ----------------------------------
-    NSLog(@"para continuar ----->%d",[self.tabuleiro count]);
+    NSLog(@"Analisando a key=%d",linha*10+coluna);
+    int fator=1;
+    if (coluna==1||coluna==3||coluna==5||coluna==7) {
+        fator=-1;
+    }
+    NSString *cor=[self.tabuleiroAuxiliar valueForKey:[NSString stringWithFormat:@"%d",((linha+fator)*10)+coluna]];
     
-    
-    return [UIColor whiteColor];
+    UIColor *cellColor=[[UIColor alloc]init];
+    if ([cor isEqualToString:@"0"]) {
+        cellColor=[UIColor blackColor];
+    } else if ([cor isEqualToString:@"1"]) {
+        cellColor=[UIColor whiteColor];
+    } else if ([cor isEqualToString:@"2"]) {
+        cellColor=[UIColor yellowColor];
+    }
+
+    return cellColor;
 }
 
 
