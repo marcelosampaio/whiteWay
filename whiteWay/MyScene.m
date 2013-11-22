@@ -16,7 +16,7 @@
 @synthesize timeUnit,timeTen,timeHundred,timeMillion,timeBillion,timeTrillion;
 @synthesize gameBoardOK,gameBoardEngineIsOn,gameTimerIsOn,gameTimer,gameBoardTimerInterval;
 @synthesize MidX,MidY,tamanhoBase;
-@synthesize tabuleiro;
+@synthesize tabuleiro,tabuleiroAuxiliar;
 
 
 -(id)initWithSize:(CGSize)size {    
@@ -29,7 +29,6 @@
         self.gameTimerIsOn=NO;
         self.gameBoardTimerInterval=3.00f;
         self.tabuleiro=[[NSMutableDictionary alloc]initWithCapacity:49];
-
     }
     return self;
 }
@@ -56,9 +55,9 @@
     {
         [self animateIntroduction];
     }
-    // Testa o se já pode criar o tabuleiro do jogo
+    // Testa se já pode criar o tabuleiro do jogo
     if (self.gameBoardOK) {
-        [self addGameBoard];
+        [self addGameBoardForTheFirstTime:YES];
         self.gameBoardOK=NO;  // Fim do ciclo de vida do tabuleiro inicial
     }
     
@@ -178,8 +177,11 @@
 // ========================================
 // Método para criação do tabuleiro de jogo
 // ========================================
--(void)addGameBoard
+-(void)addGameBoardForTheFirstTime:(BOOL)isFirstTime
 {
+    // Inicializa o tabuleiro Auxiliar
+    self.tabuleiroAuxiliar=[[NSMutableDictionary alloc]initWithDictionary:self.tabuleiro];
+    
     self.MidX=CGRectGetMidX(self.frame);
     self.MidY=CGRectGetMidY(self.frame);
     self.tamanhoBase=80; // iPad Resolution
@@ -187,23 +189,32 @@
     int totalLinhas=7;
     int totalColunas=7;
     
-    for (int i=0; i<totalColunas; i++) {
-        for (int j=0; j<totalLinhas; j++) {
-            SKSpriteNode *runningBall = [SKSpriteNode spriteNodeWithImageNamed:@"ball"];
-            runningBall.name=[NSString stringWithFormat:@"%d%d",i+1,j+1];
-            CGPoint coordenadasDaCelula=[self getBoardCellPointAtRow:i+1 Column:j+1];
-            runningBall.position=coordenadasDaCelula;
-            runningBall.zPosition=0;
-            runningBall.alpha=1;
-            runningBall.xScale=0.55;
-            runningBall.yScale=0.55;
-            runningBall.colorBlendFactor=1;
-            // Obtem a cor da celula
-            runningBall.color=[self gameBoardRowColor:i+1 gameBoardColumnColor:j+1];;
-            
-            [self addChild:runningBall];
+    if (isFirstTime) // É a primeira vez
+    {
+        for (int i=0; i<totalColunas; i++) {
+            for (int j=0; j<totalLinhas; j++) {
+                SKSpriteNode *boardCell = [SKSpriteNode spriteNodeWithImageNamed:@"ball"];
+                boardCell.name=[NSString stringWithFormat:@"%d%d",i+1,j+1];
+                CGPoint coordenadasDaCelula=[self getBoardCellPointAtRow:i+1 Column:j+1];
+                boardCell.position=coordenadasDaCelula;
+                boardCell.zPosition=0;
+                boardCell.alpha=1;
+                boardCell.xScale=0.55;
+                boardCell.yScale=0.55;
+                boardCell.colorBlendFactor=1;
+                // Obtem a cor da celula
+                boardCell.color=[self gameBoardRowColor:i+1 gameBoardColumnColor:j+1 firstTime:isFirstTime];
+                [self addChild:boardCell];
+            }
         }
+    } else    // Não é a primeira vez
+    {
+        // somente os nascentes recebem nova cor de celula os demais são movimentados ( anterior->proximo )
+        
     }
+    
+    
+
 }
 
 -(void)addInitialBall
@@ -218,7 +229,7 @@
     initialBall.yScale=0.55;
     initialBall.colorBlendFactor=1;
     // Obtem a cor da celula
-    initialBall.color=[self gameBoardRowColor:0 gameBoardColumnColor:0];
+    initialBall.color=[self gameBoardRowColor:0 gameBoardColumnColor:0 firstTime:NO];
     [self addChild:initialBall];
     
     // Anima a chegada da Bola
@@ -279,7 +290,7 @@
     return CGPointMake(xCoordinate, yCoordinate);
 }
 
--(UIColor *)gameBoardRowColor:(int)linha gameBoardColumnColor:(int)coluna
+-(UIColor *)gameBoardRowColor:(int)linha gameBoardColumnColor:(int)coluna firstTime:(BOOL)isFirstTime
 {
     // Tratamento da cor de cada celula
     //  0- Preto
@@ -288,26 +299,39 @@
     if (linha==0 && coluna==0) {
         return [UIColor yellowColor];
     }
+    // Se for a primeira vez entao a cor é randomica para todas as celullas
+    // Senao a cor randomicame se aplica apenas as nascentes
+    // Cor da proxima é a cor da anterior
+    NSString *cell=[NSString stringWithFormat:@"%d",linha*10+coluna];
     
-    // Leva em consideracao o dicionario tabuleiro para esta criacao de cores no tabuleiro
-    int probabilidade=9;
-    int randomIndex=arc4random() % probabilidade;
-    if (randomIndex<=3) {
-        // Armazena propriedades da celula do tabuleiro -- 1 Para BRANCO
-        [self.tabuleiro setValue:[NSString stringWithFormat:@"1"] forKey:[NSString stringWithFormat:@"%d",(linha*10)+coluna]];
-        return [UIColor whiteColor];
+    if (isFirstTime || [cell isEqualToString:@"11"] || [cell isEqualToString:@"13"] || [cell isEqualToString:@"15"] || [cell isEqualToString:@"17"] || [cell isEqualToString:@"72"] || [cell isEqualToString:@"74"] || [cell isEqualToString:@"76"]) {
+        // Leva em consideracao o dicionario tabuleiro para esta criacao de cores no tabuleiro
+        int probabilidade=9;
+        int randomIndex=arc4random() % probabilidade;
+        if (randomIndex<=3) {
+            // Armazena propriedades da celula do tabuleiro -- 1 Para BRANCO
+            [self.tabuleiro setValue:[NSString stringWithFormat:@"1"] forKey:[NSString stringWithFormat:@"%d",(linha*10)+coluna]];
+            return [UIColor whiteColor];
+        }
+        // -- 0 Para PRETO
+        [self.tabuleiro setValue:[NSString stringWithFormat:@"0"] forKey:[NSString stringWithFormat:@"%d",(linha*10)+coluna]];
+        return [UIColor blackColor];
+
     }
-    // -- 0 Para PRETO
-    [self.tabuleiro setValue:[NSString stringWithFormat:@"0"] forKey:[NSString stringWithFormat:@"%d",(linha*10)+coluna]];
-    return [UIColor blackColor];
+    
+    // Tratamento de NÃO É A PRIMEIRA VEZ
+    // ----------------------------------
+    NSLog(@"para continuar ----->%d",[self.tabuleiro count]);
+    
+    
+    return [UIColor whiteColor];
 }
 
 
 -(void)timerLoopOnProcessing
 {
-    static long contador;
-    contador=contador+1;
-    NSLog(@"Entrando no tratamento do loop do timer     ------ %ld",contador);
+    // Movimenta o tabuleiro
+    [self addGameBoardForTheFirstTime:NO];
 }
 
 
