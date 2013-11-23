@@ -17,6 +17,7 @@
 @synthesize gameBoardOK,gameBoardEngineIsOn,gameTimerIsOn,gameTimer,gameBoardTimerInterval,gameDriverPosition;
 @synthesize MidX,MidY,tamanhoBase;
 @synthesize tabuleiro,tabuleiroAuxiliar,objetosDoTabuleiro;
+@synthesize removerBolaAmarelaInicial;
 
 
 -(id)initWithSize:(CGSize)size {    
@@ -31,6 +32,7 @@
         self.gameDriverPosition=[NSString stringWithFormat:@"00"];
         self.tabuleiro=[[NSMutableDictionary alloc]initWithCapacity:49];
         self.objetosDoTabuleiro=[[NSMutableArray alloc]initWithCapacity:49];
+        self.removerBolaAmarelaInicial=NO;
     }
     return self;
 }
@@ -58,7 +60,7 @@
             SKSpriteNode *sprite =(SKSpriteNode *)self.objetosDoTabuleiro[index];
             if ([sprite.name isEqualToString:@"11"]) {
                 sprite.color=[UIColor yellowColor];
-                sprite.colorBlendFactor=1;
+                self.removerBolaAmarelaInicial=YES;
             }
         }
     }
@@ -104,6 +106,14 @@
             self.gameTimer=[NSTimer scheduledTimerWithTimeInterval:self.gameBoardTimerInterval target:self selector:@selector(timerLoopOnProcessing) userInfo:nil repeats:YES];
             [self.gameTimer fire];
             self.gameTimerIsOn=YES;
+        }
+        
+        // Verifica green Go para remover a bola amarela inicial da animacao
+        if (self.removerBolaAmarelaInicial) {
+            [self enumerateChildNodesWithName:@"driver" usingBlock:^(SKNode *node, BOOL *stop)
+             {
+                 [node removeFromParent];
+             }];
         }
     }
     

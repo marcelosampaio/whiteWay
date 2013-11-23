@@ -28,6 +28,7 @@
 @property float MidX;
 @property float MidY;
 @property int tamanhoBase;
+@property BOOL removerBolaAmarelaInicial;
 
 // Tabuleiro do jogo
 @property (nonatomic,strong) NSMutableDictionary *tabuleiro;
