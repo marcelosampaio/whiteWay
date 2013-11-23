@@ -14,7 +14,7 @@
 
 
 @synthesize timeUnit,timeTen,timeHundred,timeMillion,timeBillion,timeTrillion;
-@synthesize gameBoardOK,gameBoardEngineIsOn,gameTimerIsOn,gameTimer,gameBoardTimerInterval;
+@synthesize gameBoardOK,gameBoardEngineIsOn,gameTimerIsOn,gameTimer,gameBoardTimerInterval,gameDriverPosition;
 @synthesize MidX,MidY,tamanhoBase;
 @synthesize tabuleiro,tabuleiroAuxiliar,objetosDoTabuleiro;
 
@@ -28,19 +28,44 @@
         self.gameBoardEngineIsOn=NO;
         self.gameTimerIsOn=NO;
         self.gameBoardTimerInterval=3.00f;
+        self.gameDriverPosition=[NSString stringWithFormat:@"00"];
         self.tabuleiro=[[NSMutableDictionary alloc]initWithCapacity:49];
         self.objetosDoTabuleiro=[[NSMutableArray alloc]initWithCapacity:49];
     }
     return self;
 }
 
-//-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-//    /* Called when a touch begins */
-//    
-////    for (UITouch *touch in touches) {
-////        CGPoint location = [touch locationInNode:self];
-////    }
-//}
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    /* Called when a touch begins */
+    
+    for (UITouch *touch in touches) {
+//        CGPoint location = [touch locationInNode:self];
+        NSString *cor=[self.tabuleiro valueForKey:@"11"];
+        if ([cor isEqualToString:@"1"]) {
+            NSLog(@"pode prosseguir que do lado é BRANCO!!!!!!!!!!!!!");
+            [self swipeRightDriver];
+        }
+    }
+}
+
+-(void)swipeRightDriver
+{
+    static int cont;
+    cont=cont+1;
+    if (cont==1) {
+        [self.tabuleiro setValue:@"2" forKey:@"11"];
+        for (int index = 0; index<[self.objetosDoTabuleiro count];index++) {
+            SKSpriteNode *sprite =(SKSpriteNode *)self.objetosDoTabuleiro[index];
+            if ([sprite.name isEqualToString:@"11"]) {
+                sprite.color=[UIColor yellowColor];
+                sprite.colorBlendFactor=1;
+            }
+        }
+    }
+    
+    
+    
+}
 
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
@@ -223,7 +248,7 @@
 -(void)addInitialBall
 {
     SKSpriteNode *initialBall = [SKSpriteNode spriteNodeWithImageNamed:@"ball"];
-    initialBall.name=@"9";
+    initialBall.name=@"driver";
     CGPoint coordenadasDaCelula=[self getBoardCellPointAtRow:0 Column:0];
     initialBall.position=CGPointMake(CGRectGetMinX(self.frame), coordenadasDaCelula.y);
     initialBall.zPosition=0;
@@ -234,6 +259,7 @@
     // Obtem a cor da celula
     initialBall.color=[self gameBoardRowColor:0 gameBoardColumnColor:0 firstTime:NO];
     [self addChild:initialBall];
+
     
     // Anima a chegada da Bola
     SKAction *animaBolaInicial = [SKAction moveToX:coordenadasDaCelula.x duration:0.35f];

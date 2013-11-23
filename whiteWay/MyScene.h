@@ -19,6 +19,7 @@
 @property long timeTrillion;        // Trilhao de tempo
 
 // Propriedade para saber se a animacao inicial já terminou
+@property (nonatomic,strong) NSString *gameDriverPosition;
 @property BOOL gameBoardOK;
 @property BOOL gameBoardEngineIsOn;
 @property BOOL gameTimerIsOn;
@@ -32,6 +33,8 @@
 @property (nonatomic,strong) NSMutableDictionary *tabuleiro;
 @property (nonatomic,strong) NSMutableArray *objetosDoTabuleiro;
 @property (nonatomic,strong) NSMutableDictionary *tabuleiroAuxiliar;
+
+
 
 // Titulo do game para animacao
 //@property(strong,nonatomic) SKLabelNode *gameTitle;
