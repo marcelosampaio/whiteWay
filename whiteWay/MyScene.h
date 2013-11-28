@@ -19,7 +19,7 @@
 @property long timeTrillion;        // Trilhao de tempo
 
 // Propriedade para saber se a animacao inicial já terminou
-@property (nonatomic,strong) NSString *gameDriverPosition;
+@property int gameDriverColumn;
 @property BOOL gameBoardOK;
 @property BOOL gameBoardEngineIsOn;
 @property BOOL gameTimerIsOn;

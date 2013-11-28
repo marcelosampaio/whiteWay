@@ -14,7 +14,7 @@
 
 
 @synthesize timeUnit,timeTen,timeHundred,timeMillion,timeBillion,timeTrillion;
-@synthesize gameBoardOK,gameBoardEngineIsOn,gameTimerIsOn,gameTimer,gameBoardTimerInterval,gameDriverPosition;
+@synthesize gameBoardOK,gameBoardEngineIsOn,gameTimerIsOn,gameTimer,gameBoardTimerInterval,gameDriverColumn;
 @synthesize MidX,MidY,tamanhoBase;
 @synthesize tabuleiro,tabuleiroAuxiliar,objetosDoTabuleiro;
 @synthesize removerBolaAmarelaInicial;
@@ -29,10 +29,10 @@
         self.gameBoardEngineIsOn=NO;
         self.gameTimerIsOn=NO;
         self.gameBoardTimerInterval=3.00f;
-        self.gameDriverPosition=[NSString stringWithFormat:@"00"];
         self.tabuleiro=[[NSMutableDictionary alloc]initWithCapacity:49];
         self.objetosDoTabuleiro=[[NSMutableArray alloc]initWithCapacity:49];
         self.removerBolaAmarelaInicial=NO;
+        self.gameDriverColumn=0;
     }
     return self;
 }
@@ -41,21 +41,46 @@
     /* Called when a touch begins */
     
     for (UITouch *touch in touches) {
-//        CGPoint location = [touch locationInNode:self];
-        NSString *cor=[self.tabuleiro valueForKey:@"11"];
-        if ([cor isEqualToString:@"1"]) {
-            NSLog(@"pode prosseguir que do lado é BRANCO!!!!!!!!!!!!!");
-            [self swipeRightDriver];
-        }
+        [self checkIfDriversMovementIsPossibleNow];
     }
 }
 
+// Verifica se é possīvel movimentar o driver
+-(void)checkIfDriversMovementIsPossibleNow
+{
+    // Testa a condição que permite com que o Driver possa ser movimentado para direita
+    NSLog(@"coluna na qual esta o driver = %d",self.gameDriverColumn);
+    
+    // Se for Coluna 0 o driver (que esta na celula 00 somente poderá ir para a celula 12)
+    if (self.gameDriverColumn==0) {
+        NSString *cor=[self.tabuleiro valueForKey:@"11"];
+        if ([cor isEqualToString:@"1"]) {
+            NSLog(@"pode prosseguir que do lado é BRANCO!!!!!!!!!!!!!");
+            // Movimentar o driver para o lado
+            [self swipeRightDriver];
+            return; // Sai do Método
+        }
+    }
+    
+    // Daqui pra baixo somente se o driver estiver entre as colunas 1 e 7
+    // ------------------------------------------------------------------
+    
+    
+    
+    
+    
+    
+    
+}
+
+
+// Movimenta do Driver para o lado direito
 -(void)swipeRightDriver
 {
     static int cont;
     cont=cont+1;
     if (cont==1) {
-        [self.tabuleiro setValue:@"2" forKey:@"11"];
+        [self.tabuleiro setValue:@"2" forKey:@"11"];  // AMARELO
         for (int index = 0; index<[self.objetosDoTabuleiro count];index++) {
             SKSpriteNode *sprite =(SKSpriteNode *)self.objetosDoTabuleiro[index];
             if ([sprite.name isEqualToString:@"11"]) {
@@ -64,9 +89,7 @@
             }
         }
     }
-    
-    
-    
+
 }
 
 -(void)update:(CFTimeInterval)currentTime {
@@ -257,6 +280,7 @@
 
 -(void)addInitialBall
 {
+    self.gameDriverColumn=0;
     SKSpriteNode *initialBall = [SKSpriteNode spriteNodeWithImageNamed:@"ball"];
     initialBall.name=@"driver";
     CGPoint coordenadasDaCelula=[self getBoardCellPointAtRow:0 Column:0];
