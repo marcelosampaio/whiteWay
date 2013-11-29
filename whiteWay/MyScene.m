@@ -14,7 +14,7 @@
 
 
 @synthesize timeUnit,timeTen,timeHundred,timeMillion,timeBillion,timeTrillion;
-@synthesize gameBoardOK,gameBoardEngineIsOn,gameTimerIsOn,gameTimer,gameBoardTimerInterval,gameDriverColumn,gameDriverCell;
+@synthesize gameBoardOK,gameBoardEngineIsOn,gameTimerIsOn,gameTimer,gameBoardTimerInterval,gameDriverColumn,gameDriverCell,gameDriverDidMove;
 @synthesize MidX,MidY,tamanhoBase;
 @synthesize tabuleiro,tabuleiroAuxiliar,objetosDoTabuleiro;
 @synthesize removerBolaAmarelaInicial;
@@ -34,6 +34,7 @@
         self.removerBolaAmarelaInicial=NO;
         self.gameDriverColumn=0;
         self.gameDriverCell=10;
+        self.gameDriverDidMove=NO;
     }
     return self;
 }
@@ -53,7 +54,6 @@
     NSString *corCaminho=[self.tabuleiro valueForKey:[NSString stringWithFormat:@"%d",self.gameDriverCell+1]];
     if ([corCaminho isEqualToString:@"1"]||self.gameDriverColumn==7) {
         // Movimentar o driver para o lado
-        self.gameDriverColumn=self.gameDriverColumn+1;
         [self swipeRightDriver];
         // Atualiza coluna do driver
     }
@@ -63,6 +63,9 @@
 // Movimenta do Driver para o lado direito
 -(void)swipeRightDriver
 {
+    self.gameDriverColumn=self.gameDriverColumn+1;
+    self.gameDriverDidMove=YES;
+    
     // Da onde veio fica BRANCO
     [self.tabuleiro setValue:@"1" forKey:[NSString stringWithFormat:@"%d",self.gameDriverCell]];  // BRANCO
     // Pra onde vai fica AMARELO
@@ -129,9 +132,27 @@
                  [node removeFromParent];
              }];
         }
+        
+        // Verifica se o driver morreu ao sair por baixo ou por cima
+        if (self.gameDriverDidMove) {
+            BOOL gameOver=YES;
+            for (int index = 0; index<[self.objetosDoTabuleiro count];index++) {
+                SKSpriteNode *sprite =(SKSpriteNode *)self.objetosDoTabuleiro[index];
+                if ([sprite.color isEqual:[UIColor yellowColor]]) {
+                    gameOver=NO;
+                }
+            } // <----- fim do for
+            // Apos varrer todos os objetos do tabuleira identifica se game over
+            if (gameOver) {
+                NSLog(@"GAME OVER");
+            }
+        }
     }
     
 }
+
+
+
 
 -(void)animateIntroduction
 {
