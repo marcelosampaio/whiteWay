@@ -14,7 +14,7 @@
 
 
 @synthesize timeUnit,timeTen,timeHundred,timeMillion,timeBillion,timeTrillion;
-@synthesize gameBoardOK,gameBoardEngineIsOn,gameTimerIsOn,gameTimer,gameBoardTimerInterval,gameDriverColumn;
+@synthesize gameBoardOK,gameBoardEngineIsOn,gameTimerIsOn,gameTimer,gameBoardTimerInterval,gameDriverColumn,gameDriverCell;
 @synthesize MidX,MidY,tamanhoBase;
 @synthesize tabuleiro,tabuleiroAuxiliar,objetosDoTabuleiro;
 @synthesize removerBolaAmarelaInicial;
@@ -33,6 +33,7 @@
         self.objetosDoTabuleiro=[[NSMutableArray alloc]initWithCapacity:49];
         self.removerBolaAmarelaInicial=NO;
         self.gameDriverColumn=0;
+        self.gameDriverCell=10;
     }
     return self;
 }
@@ -48,29 +49,13 @@
 // Verifica se é possīvel movimentar o driver
 -(void)checkIfDriversMovementIsPossibleNow
 {
-    // Testa a condição que permite com que o Driver possa ser movimentado para direita
-    NSLog(@"coluna na qual esta o driver = %d",self.gameDriverColumn);
-    
-    // Se for Coluna 0 o driver (que esta na celula 00 somente poderá ir para a celula 12)
-    if (self.gameDriverColumn==0) {
-        NSString *cor=[self.tabuleiro valueForKey:@"11"];
-        if ([cor isEqualToString:@"1"]) {
-            NSLog(@"pode prosseguir que do lado é BRANCO!!!!!!!!!!!!!");
-            // Movimentar o driver para o lado
-            [self swipeRightDriver];
-            return; // Sai do Método
-        }
+    NSLog(@"do lado temos a cor=%@",[self.tabuleiro valueForKey:[NSString stringWithFormat:@"%d",self.gameDriverCell+1]]);
+    NSString *corCaminho=[self.tabuleiro valueForKey:[NSString stringWithFormat:@"%d",self.gameDriverCell+1]];
+    if ([corCaminho isEqualToString:@"1"]) {
+        // Movimentar o driver para o lado
+        [self swipeRightDriver];
+        NSLog(@"SIM..... PODE MOVIMENTAR DO LADO E BRANCO!!!!!!!!!!!!!");
     }
-    
-    // Daqui pra baixo somente se o driver estiver entre as colunas 1 e 7
-    // ------------------------------------------------------------------
-    
-    
-    
-    
-    
-    
-    
 }
 
 
@@ -93,8 +78,6 @@
 }
 
 -(void)update:(CFTimeInterval)currentTime {
-    /* Called before each frame is rendered */
-
     // Time management - Getting timePulse
     long timePulse=[self timeCounter];
 
@@ -241,6 +224,7 @@
     // Inicializa o tabuleiro Auxiliar
     self.tabuleiroAuxiliar=[[NSMutableDictionary alloc]initWithDictionary:self.tabuleiro];
     [self resetBoard];
+    self.gameDriverCell=10;
     
     self.MidX=CGRectGetMidX(self.frame);
     self.MidY=CGRectGetMidY(self.frame);
@@ -398,6 +382,7 @@
         cellColor=[UIColor whiteColor];
     } else if ([cor isEqualToString:@"2"]) {
         cellColor=[UIColor yellowColor];
+        self.gameDriverCell=(linha*10)+coluna;
     }
 
     [self.tabuleiro setValue:[NSString stringWithFormat:@"%@",cor] forKey:[NSString stringWithFormat:@"%d",(linha*10)+coluna]];

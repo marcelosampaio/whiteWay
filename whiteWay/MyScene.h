@@ -20,6 +20,7 @@
 
 // Propriedade para saber se a animacao inicial já terminou
 @property int gameDriverColumn;
+@property int gameDriverCell;
 @property BOOL gameBoardOK;
 @property BOOL gameBoardEngineIsOn;
 @property BOOL gameTimerIsOn;
