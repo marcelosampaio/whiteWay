@@ -49,12 +49,13 @@
 // Verifica se é possīvel movimentar o driver
 -(void)checkIfDriversMovementIsPossibleNow
 {
-    NSLog(@"do lado temos a cor=%@",[self.tabuleiro valueForKey:[NSString stringWithFormat:@"%d",self.gameDriverCell+1]]);
+    // Identificando se a cor da celula ao lado do Driver é BRANCO
     NSString *corCaminho=[self.tabuleiro valueForKey:[NSString stringWithFormat:@"%d",self.gameDriverCell+1]];
-    if ([corCaminho isEqualToString:@"1"]) {
+    if ([corCaminho isEqualToString:@"1"]||self.gameDriverColumn==7) {
         // Movimentar o driver para o lado
+        self.gameDriverColumn=self.gameDriverColumn+1;
         [self swipeRightDriver];
-        NSLog(@"SIM..... PODE MOVIMENTAR DO LADO E BRANCO!!!!!!!!!!!!!");
+        // Atualiza coluna do driver
     }
 }
 
@@ -62,19 +63,26 @@
 // Movimenta do Driver para o lado direito
 -(void)swipeRightDriver
 {
-    static int cont;
-    cont=cont+1;
-    if (cont==1) {
-        [self.tabuleiro setValue:@"2" forKey:@"11"];  // AMARELO
-        for (int index = 0; index<[self.objetosDoTabuleiro count];index++) {
-            SKSpriteNode *sprite =(SKSpriteNode *)self.objetosDoTabuleiro[index];
-            if ([sprite.name isEqualToString:@"11"]) {
-                sprite.color=[UIColor yellowColor];
-                self.removerBolaAmarelaInicial=YES;
-            }
-        }
-    }
+    // Da onde veio fica BRANCO
+    [self.tabuleiro setValue:@"1" forKey:[NSString stringWithFormat:@"%d",self.gameDriverCell]];  // BRANCO
+    // Pra onde vai fica AMARELO
+    [self.tabuleiro setValue:@"2" forKey:[NSString stringWithFormat:@"%d",self.gameDriverCell+1]];  // AMARELO
 
+
+    // Acerta as cores dos objetosDoTabuleiro
+    for (int index = 0; index<[self.objetosDoTabuleiro count];index++) {
+        SKSpriteNode *sprite =(SKSpriteNode *)self.objetosDoTabuleiro[index];
+            
+        if ([sprite.name isEqualToString:[NSString stringWithFormat:@"%d",self.gameDriverCell]]) {
+            sprite.color=[UIColor whiteColor];
+        }
+
+        if ([sprite.name isEqualToString:[NSString stringWithFormat:@"%d",self.gameDriverCell+1]]) {
+            sprite.color=[UIColor yellowColor];
+        }
+    
+    }
+    self.removerBolaAmarelaInicial=YES;
 }
 
 -(void)update:(CFTimeInterval)currentTime {
