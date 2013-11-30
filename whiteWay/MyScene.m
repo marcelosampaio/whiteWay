@@ -43,10 +43,13 @@
     /* Called when a touch begins */
     
     for (UITouch *touch in touches) {
+        
         // Na coluna 7 (a ultima) é só tocar a tela que GANHOU!!!!! Vitoria!!!!!!
         if (self.gameDriverColumn>=7) {
                 NSLog(@"checando se pode ir para a direita.... estou na coluna:%d",self.gameDriverColumn);
         }
+        
+        // Testa se o swipe é possivel
         [self checkIfDriversMovementIsPossibleNow];
     }
 }
