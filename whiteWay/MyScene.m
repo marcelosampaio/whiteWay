@@ -43,6 +43,10 @@
     /* Called when a touch begins */
     
     for (UITouch *touch in touches) {
+        // Na coluna 7 (a ultima) é só tocar a tela que GANHOU!!!!! Vitoria!!!!!!
+        if (self.gameDriverColumn>=7) {
+                NSLog(@"checando se pode ir para a direita.... estou na coluna:%d",self.gameDriverColumn);
+        }
         [self checkIfDriversMovementIsPossibleNow];
     }
 }
@@ -52,10 +56,9 @@
 {
     // Identificando se a cor da celula ao lado do Driver é BRANCO
     NSString *corCaminho=[self.tabuleiro valueForKey:[NSString stringWithFormat:@"%d",self.gameDriverCell+1]];
-    if ([corCaminho isEqualToString:@"1"]||self.gameDriverColumn==7) {
+    if ([corCaminho isEqualToString:@"1"]||self.gameDriverColumn==6) {
         // Movimentar o driver para o lado
         [self swipeRightDriver];
-        // Atualiza coluna do driver
     }
 }
 
@@ -145,14 +148,12 @@
             // Apos varrer todos os objetos do tabuleira identifica se game over
             if (gameOver) {
                 NSLog(@"GAME OVER");
+                NSLog(@"gameDriverColumn=%d",self.gameDriverColumn);
             }
         }
     }
     
 }
-
-
-
 
 -(void)animateIntroduction
 {
