@@ -7,12 +7,15 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "MyScene.h"
+#import "gameOver.h"
 
-@interface gameOver : SKScene
+@implementation gameOver
 
--(id)initWithSize:(CGSize)size won:(BOOL)won;
-
-
+-(id)initWithSize:(CGSize)size won:(BOOL)won
+{
+    return self;
+}
 @end
 
 

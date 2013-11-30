@@ -9,6 +9,7 @@
 #define TIME_FACTOR 10
 
 #import "MyScene.h"
+#import "gameOver.h"
 
 @implementation MyScene
 
@@ -152,10 +153,24 @@
             if (gameOver) {
                 NSLog(@"GAME OVER");
                 NSLog(@"gameDriverColumn=%d",self.gameDriverColumn);
+                [self initGameOverSceneWithWin:NO];
             }
         }
     }
     
+}
+-(void)initGameOverSceneWithWin:(BOOL)won
+{
+    SKTransition *reveal = [SKTransition flipHorizontalWithDuration:0.5];
+
+    SKScene *gameOverScene = [[gameOver alloc] initWithSize:self.size won:NO];
+    gameOverScene.scaleMode = SKSceneScaleModeAspectFill;
+    [self.view presentScene:gameOverScene transition: reveal];
+    if (won) {
+        NSLog(@"venceu");
+    } else {
+        NSLog(@"perdeu");
+    }
 }
 
 -(void)animateIntroduction
