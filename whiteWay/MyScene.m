@@ -162,8 +162,7 @@
 -(void)initGameOverSceneWithWin:(BOOL)won
 {
     SKTransition *reveal = [SKTransition flipHorizontalWithDuration:0.5];
-
-    SKScene *gameOverScene = [[gameOver alloc] initWithSize:self.size won:NO];
+    SKScene *gameOverScene = [[gameOver alloc] initWithSize:self.size won:won];
     gameOverScene.scaleMode = SKSceneScaleModeAspectFill;
     [self.view presentScene:gameOverScene transition: reveal];
     if (won) {
