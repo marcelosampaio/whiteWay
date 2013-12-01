@@ -151,20 +151,19 @@
             } // <----- fim do for
             // Apos varrer todos os objetos do tabuleira identifica se game over
             if (gameOver) {
-                NSLog(@"GAME OVER");
-                NSLog(@"gameDriverColumn=%d",self.gameDriverColumn);
-                [self initGameOverSceneWithWin:NO];
+//                NSLog(@"GAME OVER");
+                [self prepareGameOverSceneWithWin:NO];
             }
         }
     }
     
 }
--(void)initGameOverSceneWithWin:(BOOL)won
+-(void)prepareGameOverSceneWithWin:(BOOL)won
 {
-    SKTransition *reveal = [SKTransition flipHorizontalWithDuration:0.5];
+    SKTransition *transition = [SKTransition flipHorizontalWithDuration:0.5];
     SKScene *gameOverScene = [[gameOver alloc] initWithSize:self.size won:won];
     gameOverScene.scaleMode = SKSceneScaleModeAspectFill;
-    [self.view presentScene:gameOverScene transition: reveal];
+    [self.view presentScene:gameOverScene transition: transition];
     if (won) {
         NSLog(@"venceu");
     } else {

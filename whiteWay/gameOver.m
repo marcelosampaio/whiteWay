@@ -12,6 +12,7 @@
 @implementation gameOver
 
 -(id)initWithSize:(CGSize)size won:(BOOL)won {
+    
     if (self = [super initWithSize:size]) {
         
         // 1
@@ -25,7 +26,6 @@
             self.backgroundColor =[SKColor greenColor];
             
             // NUNCA ENTRA AQUI
-            
             message = @"";
         } else {
             self.backgroundColor =[SKColor redColor];
@@ -62,7 +62,7 @@
         label3.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMinY(self.frame)+(CGRectGetMidY(self.frame)/4));
         [self addChild:label3];
         
-        
+        NSLog(@"about to runAction sequence");
         
         // 4
         [self runAction:
