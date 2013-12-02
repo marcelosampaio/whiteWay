@@ -160,15 +160,17 @@
 }
 -(void)prepareGameOverSceneWithWin:(BOOL)won
 {
-    SKTransition *transition = [SKTransition flipHorizontalWithDuration:0.5];
-    SKScene *gameOverScene = [[gameOver alloc] initWithSize:self.size won:won];
-    gameOverScene.scaleMode = SKSceneScaleModeAspectFill;
-    [self.view presentScene:gameOverScene transition: transition];
-    if (won) {
-        NSLog(@"venceu");
-    } else {
-        NSLog(@"perdeu");
+    static int chamaOver;
+    chamaOver=chamaOver+1;
+    
+    if (chamaOver==1) {
+        NSLog(@"chamando game over scene");
+        SKTransition *reveal = [SKTransition crossFadeWithDuration:2.5];
+        SKScene *gameOverScene = [[gameOver alloc] initWithSize:self.size won:NO];
+        gameOverScene.scaleMode = SKSceneScaleModeAspectFill;
+        [self.view presentScene:gameOverScene transition: reveal];
     }
+    
 }
 
 -(void)animateIntroduction

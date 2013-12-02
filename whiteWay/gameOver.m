@@ -46,12 +46,14 @@
         label.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMinY(self.frame)+(CGRectGetMidY(self.frame)/1.3));
         [self addChild:label];
         
+        
         SKLabelNode *label2 = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
         label2.text = message2;
         label2.fontSize = 18;
         label2.fontColor = [SKColor whiteColor];
         label2.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame)-(CGRectGetMidY(self.frame)/1.3));
         [self addChild:label2];
+        
         
         
         // Coloca os créditos do app
@@ -62,17 +64,19 @@
         label3.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMinY(self.frame)+(CGRectGetMidY(self.frame)/4));
         [self addChild:label3];
         
-        NSLog(@"about to runAction sequence");
         
         // 4
+        NSLog(@"em gameOver Scene pronto para runAction e voltar ao chamador ");
         [self runAction:
          [SKAction sequence:@[
-                              [SKAction waitForDuration:3.0],
+                              [SKAction waitForDuration:0.5],
                               [SKAction runBlock:^{
              // 5
-             SKTransition *reveal = [SKTransition flipHorizontalWithDuration:0.5];
-             SKScene *myScene = [[MyScene alloc] initWithSize:self.size];
-             [self.view presentScene:myScene transition:reveal];
+             SKTransition *reveal = [SKTransition crossFadeWithDuration:1];
+
+             SKScene *gameOverScene = [[MyScene alloc]initWithSize:self.size];
+             gameOverScene.scaleMode = SKSceneScaleModeAspectFill;
+             [self.view presentScene:gameOverScene transition: reveal];
          }]
                               ]]
          ];
