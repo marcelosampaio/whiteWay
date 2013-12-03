@@ -24,21 +24,26 @@
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
-        
-        self.backgroundColor = [SKColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
-        self.gameBoardOK=NO;
-        self.gameBoardEngineIsOn=NO;
-        self.gameTimerIsOn=NO;
-        self.gameBoardTimerInterval=3.00f;
-        self.tabuleiro=[[NSMutableDictionary alloc]initWithCapacity:49];
-        self.objetosDoTabuleiro=[[NSMutableArray alloc]initWithCapacity:49];
-        self.removerBolaAmarelaInicial=NO;
-        self.gameDriverColumn=0;
-        self.gameDriverCell=10;
-        self.gameDriverDidMove=NO;
+        [self setUpInitialPropertiesValues];
     }
     return self;
 }
+
+-(void) setUpInitialPropertiesValues
+{
+    self.backgroundColor = [SKColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
+    self.gameBoardOK=NO;
+    self.gameBoardEngineIsOn=NO;
+    self.gameTimerIsOn=NO;
+    self.gameBoardTimerInterval=3.00f;
+    self.tabuleiro=[[NSMutableDictionary alloc]initWithCapacity:49];
+    self.objetosDoTabuleiro=[[NSMutableArray alloc]initWithCapacity:49];
+    self.removerBolaAmarelaInicial=NO;
+    self.gameDriverColumn=0;
+    self.gameDriverCell=10;
+    self.gameDriverDidMove=NO;
+}
+
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     /* Called when a touch begins */
@@ -164,7 +169,12 @@
     chamaOver=chamaOver+1;
     
     if (chamaOver==1) {
-        NSLog(@"chamando game over scene");
+        // desliga o timer
+        [self.gameTimer invalidate];
+        // Inicializa as propriedades
+        [self setUpInitialPropertiesValues];
+        
+        // apresenta a cena de fim de jogo
         SKTransition *reveal = [SKTransition crossFadeWithDuration:2.5];
         SKScene *gameOverScene = [[gameOver alloc] initWithSize:self.size won:NO];
         gameOverScene.scaleMode = SKSceneScaleModeAspectFill;
