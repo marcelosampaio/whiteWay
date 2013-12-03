@@ -42,6 +42,14 @@
     self.gameDriverColumn=0;
     self.gameDriverCell=10;
     self.gameDriverDidMove=NO;
+    
+    // Time control
+    timeUnit=0;
+    timeTen=0;
+    timeHundred=0;
+    timeMillion=0;
+    timeBillion=0;
+    timeTrillion=0;
 }
 
 
