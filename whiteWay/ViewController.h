@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <SpriteKit/SpriteKit.h>
+#import <AVFoundation/AVFoundation.h>
+
 
 @interface ViewController : UIViewController
+
+@property (strong,nonatomic) AVAudioPlayer *backgroundMusicPlayer;
 
 @end

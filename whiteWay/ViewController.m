@@ -11,9 +11,22 @@
 
 @implementation ViewController
 
+@synthesize backgroundMusicPlayer;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // configure Sound Track
+    NSError *error;
+    NSURL *backgroundMusicURL = [[NSBundle mainBundle] URLForResource:@"whiteWay2" withExtension:@"caf"];
+    
+    
+    self.backgroundMusicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:backgroundMusicURL error:&error];
+    self.backgroundMusicPlayer.numberOfLoops = -1;
+    [self.backgroundMusicPlayer prepareToPlay];
+    [self.backgroundMusicPlayer play];
+    
     // Configure the view.
     [self configureAndPresentView];
 }
