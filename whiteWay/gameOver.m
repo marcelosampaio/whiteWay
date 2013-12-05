@@ -66,20 +66,19 @@
         
         
         // 4
-        NSLog(@"em gameOver Scene pronto para runAction e voltar ao chamador ");
-        [self runAction:
-         [SKAction sequence:@[
-                              [SKAction waitForDuration:0.5],
-                              [SKAction runBlock:^{
-             // 5
-             SKTransition *reveal = [SKTransition crossFadeWithDuration:1];
-
-             SKScene *gameOverScene = [[MyScene alloc]initWithSize:self.size];
-             gameOverScene.scaleMode = SKSceneScaleModeAspectFill;
-             [self.view presentScene:gameOverScene transition: reveal];
-         }]
-                              ]]
-         ];
+//        [self runAction:
+//         [SKAction sequence:@[
+//                              [SKAction waitForDuration:0.5],
+//                              [SKAction runBlock:^{
+//             // 5
+//             SKTransition *reveal = [SKTransition crossFadeWithDuration:1];
+//
+//             SKScene *gameOverScene = [[MyScene alloc]initWithSize:self.size];
+//             gameOverScene.scaleMode = SKSceneScaleModeAspectFill;
+//             [self.view presentScene:gameOverScene transition: reveal];
+//         }]
+//                              ]]
+//         ];
         
     }
     return self;

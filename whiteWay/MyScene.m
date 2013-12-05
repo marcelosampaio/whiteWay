@@ -183,10 +183,11 @@
         [self setUpInitialPropertiesValues];
         
         // apresenta a cena de fim de jogo
-        SKTransition *reveal = [SKTransition crossFadeWithDuration:2.5];
-        SKScene *gameOverScene = [[gameOver alloc] initWithSize:self.size won:NO];
-        gameOverScene.scaleMode = SKSceneScaleModeAspectFill;
-        [self.view presentScene:gameOverScene transition: reveal];
+        NSLog(@"aqui vai chamar o game over para vitoria ou derrota");
+//        SKTransition *reveal = [SKTransition crossFadeWithDuration:2.5];
+//        SKScene *gameOverScene = [[gameOver alloc] initWithSize:self.size won:NO];
+//        gameOverScene.scaleMode = SKSceneScaleModeAspectFill;
+//        [self.view presentScene:gameOverScene transition: reveal];
     }
     
 }
