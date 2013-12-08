@@ -16,6 +16,9 @@
 
 @synthesize timeUnit,timeTen,timeHundred,timeMillion,timeBillion,timeTrillion;
 @synthesize gameBoardOK,gameBoardEngineIsOn,gameTimerIsOn,gameTimer,gameBoardTimerInterval,gameDriverColumn,gameDriverCell,gameDriverDidMove;
+
+@synthesize gameOverSceneInternalCounter;
+
 @synthesize MidX,MidY,tamanhoBase;
 @synthesize tabuleiro,tabuleiroAuxiliar,objetosDoTabuleiro;
 @synthesize removerBolaAmarelaInicial;
@@ -31,6 +34,10 @@
 
 -(void) setUpInitialPropertiesValues
 {
+    // Limpa todos os objetos do tabuleiro e da view
+    [self cleanUpGameBoard];
+    
+    // Inicializa todas as propriedades
     self.backgroundColor = [SKColor colorWithRed:0.00 green:0.00 blue:0.00 alpha:1.0];
     self.gameBoardOK=NO;
     self.gameBoardEngineIsOn=NO;
@@ -44,12 +51,28 @@
     self.gameDriverDidMove=NO;
     
     // Time control
-    timeUnit=0;
-    timeTen=0;
-    timeHundred=0;
-    timeMillion=0;
-    timeBillion=0;
-    timeTrillion=0;
+    self.timeUnit=0;
+    self.timeTen=0;
+    self.timeHundred=0;
+    self.timeMillion=0;
+    self.timeBillion=0;
+    self.timeTrillion=0;
+    
+    // Controle interno do Game Over Scene
+    self.gameOverSceneInternalCounter=0;
+
+}
+
+-(void) cleanUpGameBoard
+{
+    NSLog(@"limpa todos os nodes da view");
+    for (int index = 0; index<[self.objetosDoTabuleiro count];index++) {
+        SKSpriteNode *sprite =(SKSpriteNode *)self.objetosDoTabuleiro[index];
+        [sprite removeFromParent];
+    }
+
+
+    
 }
 
 
@@ -173,10 +196,9 @@
 }
 -(void)prepareGameOverSceneWithWin:(BOOL)won
 {
-    static int chamaOver;
-    chamaOver=chamaOver+1;
-    
-    if (chamaOver==1) {
+    self.gameOverSceneInternalCounter=self.gameOverSceneInternalCounter+1;
+
+    if (self.gameOverSceneInternalCounter==1) {
         // desliga o timer
         [self.gameTimer invalidate];
         // Inicializa as propriedades

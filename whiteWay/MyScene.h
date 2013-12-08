@@ -32,6 +32,9 @@
 @property int tamanhoBase;
 @property BOOL removerBolaAmarelaInicial;
 
+// Contador para controle do GameOver Scene
+@property long gameOverSceneInternalCounter;
+
 // Tabuleiro do jogo
 @property (nonatomic,strong) NSMutableDictionary *tabuleiro;
 @property (nonatomic,strong) NSMutableArray *objetosDoTabuleiro;
