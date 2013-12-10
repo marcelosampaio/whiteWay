@@ -17,7 +17,7 @@
 @synthesize timeUnit,timeTen,timeHundred,timeMillion,timeBillion,timeTrillion;
 @synthesize gameBoardOK,gameBoardEngineIsOn,gameTimerIsOn,gameTimer,gameBoardTimerInterval,gameDriverColumn,gameDriverCell,gameDriverDidMove;
 
-@synthesize gameOverSceneInternalCounter;
+@synthesize gameOverSceneInternalCounter,gameOverSceneIsRunning;
 
 @synthesize MidX,MidY,tamanhoBase;
 @synthesize tabuleiro,tabuleiroAuxiliar,objetosDoTabuleiro;
@@ -28,6 +28,7 @@
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
         [self setUpInitialPropertiesValues];
+        gameOverSceneIsRunning=NO;
     }
     return self;
 }
@@ -65,14 +66,10 @@
 
 -(void) cleanUpGameBoard
 {
-    NSLog(@"limpa todos os nodes da view");
     for (int index = 0; index<[self.objetosDoTabuleiro count];index++) {
         SKSpriteNode *sprite =(SKSpriteNode *)self.objetosDoTabuleiro[index];
         [sprite removeFromParent];
     }
-
-
-    
 }
 
 
@@ -132,6 +129,13 @@
 }
 
 -(void)update:(CFTimeInterval)currentTime {
+    
+    // Respeita o momento que o Game Over Scene está em ação
+    if (self.gameOverSceneIsRunning) {
+        return;
+    }
+    
+    
     // Time management - Getting timePulse
     long timePulse=[self timeCounter];
 
@@ -203,13 +207,17 @@
         [self.gameTimer invalidate];
         // Inicializa as propriedades
         [self setUpInitialPropertiesValues];
+
+        // Avisa ao método "update" que a cena de fim de jogo está rodando
+        self.gameOverSceneIsRunning=YES;
         
         // apresenta a cena de fim de jogo
         NSLog(@"aqui vai chamar o game over para vitoria ou derrota");
-//        SKTransition *reveal = [SKTransition crossFadeWithDuration:2.5];
-//        SKScene *gameOverScene = [[gameOver alloc] initWithSize:self.size won:NO];
-//        gameOverScene.scaleMode = SKSceneScaleModeAspectFill;
-//        [self.view presentScene:gameOverScene transition: reveal];
+        
+        SKTransition *reveal = [SKTransition crossFadeWithDuration:2.5];
+        SKScene *gameOverScene = [[gameOver alloc] initWithSize:self.size won:NO];
+        gameOverScene.scaleMode = SKSceneScaleModeAspectFill;
+        [self.view presentScene:gameOverScene transition: reveal];
     }
     
 }

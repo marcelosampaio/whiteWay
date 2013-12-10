@@ -34,6 +34,7 @@
 
 // Contador para controle do GameOver Scene
 @property long gameOverSceneInternalCounter;
+@property BOOL gameOverSceneIsRunning;
 
 // Tabuleiro do jogo
 @property (nonatomic,strong) NSMutableDictionary *tabuleiro;
